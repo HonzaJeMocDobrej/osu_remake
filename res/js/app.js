@@ -27,9 +27,6 @@
     let robloxAudio = new Audio("./res/sounds/boblox.mp3");
     
     localStorage.setItem('coins', coins);
-    localStorage.setItem('skinEquipped', skinEquipped);
-
-    localStorage.getItem('skinEquipped');
 
     coinsText.innerHTML = `Coins: ${coins}`;
     
@@ -37,13 +34,12 @@
     closeShop();
 
     skinButton.onclick = () => {
-        if (coins >= 100) {
-            coins -= 100;
+        if (coins >= 50) {
+            coins -= 50;
             coinsText.innerHTML = `Coins: ${coins}`;
     
             skinEquipped = true;
             
-            localStorage.setItem('skinEquipped', skinEquipped);
             localStorage.setItem('coins', coins);
         }
     }
@@ -81,6 +77,8 @@
                 endGameElements();
 
                 restartGame();
+
+                skinEquipped = false;
             }
         }
 
@@ -92,13 +90,16 @@
              block.style.width = "4%";
             block.style.height = "8%";
             block.style.position = "absolute";
-            block.style.backgroundColor = "#FF2E00";
             
             block.style.left = `${x}%`;
             block.style.top = `${y}%`;
             
             block.onmouseover = () => {
                 block.style.cursor = "crosshair";
+            }
+            
+            if (skinEquipped == false) {
+                block.style.backgroundColor = "#FF2E00";
             }
 
             if (skinEquipped == true) {
@@ -122,10 +123,11 @@
                 else if (clickCount >= 1) {
                     clearInterval(newSpawnInterval);
                 }
-                breakAudio.load();
-                breakAudio.play();
+                if (skinEquipped == false) {
+                    breakAudio.load();
+                    breakAudio.play();
+                }
                 if (skinEquipped == true) {
-                    breakAudio.pause();
                     robloxAudio.load();
                     robloxAudio.play();
                 }
